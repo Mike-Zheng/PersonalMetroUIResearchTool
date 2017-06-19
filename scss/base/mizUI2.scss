@@ -1,0 +1,73 @@
+// Copyright MizTech
+// Licensed MikeZheng
+// http: //mike-zheng.github.io/
+//            _   _____         _     
+//           (_) |_   _|       | |    
+//  _ __ ___  _ ___| | ___  ___| |__  
+// | '_ ` _ \| |_  / |/ _ \/ __| '_ \ 
+// | | | | | | |/ /| |  __/ (__| | | |
+// |_| |_| |_|_/___\_/\___|\___|_| |_|
+//                mike-zheng.github.io
+@mixin box-shadow($shadow1, $shadow2:false) {
+    $params: $shadow1;
+    @if $shadow2 {
+        $params: $shadow1, $shadow2;
+    }
+    -webkit-box-shadow: $params;
+    -moz-box-shadow: $params;
+    box-shadow: $params;
+}
+
+// @include box-shadow(
+//     0 1px 4px rgba(0,0,0,0.3),
+//     0 0 40px rgba(0,0,0,0.1) inset
+//  );
+@mixin transition($transition) {
+    -moz-transition: $transition;
+    -o-transition: $transition;
+    -webkit-transition: $transition;
+    transition: $transition;
+}
+
+// mikzUI
+//2016
+//基本設定
+@import 'base/page';
+@import 'base/article';
+//版型
+@import 'layout/header';
+@import 'layout/main';
+@import 'layout/menu';
+@import 'layout/mobile-menu';
+.overlay {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 150;
+    background-color: rgba(0, 0, 0, 0.5);
+    &.show {
+        display: block;
+    }
+}
+
+code {
+    padding: 0;
+    font-size: initial;
+    color: initial;
+    background-color: initial;
+    border-radius: initial;
+    /* text-align: left; */
+}
+
+//元件
+@import 'components/nav';
+@import 'components/top-button';
+@import 'components/author-info';
+@import 'components/tags';
+// @include pc-width() {}
+// @include pad-width() {}
+// @include small-pad-width() {}
+// @include phone-width() {}

@@ -1,0 +1,352 @@
+// Copyright MizTech
+// Licensed MikeZheng
+// http: //mike-zheng.github.io/
+//            _   _____         _     
+//           (_) |_   _|       | |    
+//  _ __ ___  _ ___| | ___  ___| |__  
+// | '_ ` _ \| |_  / |/ _ \/ __| '_ \ 
+// | | | | | | |/ /| |  __/ (__| | | |
+// |_| |_| |_|_/___\_/\___|\___|_| |_|
+//                mike-zheng.github.io
+@mixin box-shadow($shadow1, $shadow2:false) {
+    $params: $shadow1;
+    @if $shadow2 {
+        $params: $shadow1, $shadow2;
+    }
+    -webkit-box-shadow: $params;
+    -moz-box-shadow: $params;
+    box-shadow: $params;
+}
+
+// @include box-shadow(
+//     0 1px 4px rgba(0,0,0,0.3),
+//     0 0 40px rgba(0,0,0,0.1) inset
+//  );
+@mixin transition($transition) {
+    -moz-transition: $transition;
+    -o-transition: $transition;
+    -webkit-transition: $transition;
+    transition: $transition;
+}
+
+// mikzUI
+//2016
+//基本設定
+// @import 'base/page';
+// @import 'base/article';
+// //版型
+// @import 'layout/header';
+// @import 'layout/main';
+// @import 'layout/menu';
+// @import 'layout/mobile-menu';
+// //元件
+// @import 'components/nav';
+// @import 'components/top-button';
+// @import 'components/author-info';
+// @import 'components/tags';
+// @include pc-width() {}
+// @include pad-width() {}
+// @include small-pad-width() {}
+// @include phone-width() {}
+//基本設定
+// @import "partials/variables";
+// Grid Systems
+//bootstrape grid
+// @import "partials/grid/gridMixins";
+// @import "partials/grid/grid";
+// // Cor
+// @import "partials/nomalize";
+// // Reset and dependencies
+// @import "vendor/font-awesome/font-awesome";
+// @import "vendor/hover/hover";
+// @import "vendor/hint/hint";
+// Components
+// @import "partials/components/button";
+@import "partials/reset";
+@import "partials/components/metro";
+body {
+    font-family: 'Open Sans', "PingFang TC", "Microsoft Yahei", "Hiragino Sans GB", 'cwTeXYen', sans-serif;
+    background-color: #2F2F2F;
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-image: url(../images/background.svg);
+    background-size: cover;
+    height: 100%;
+}
+
+.container {
+    display: block;
+    height: 100%;
+    width: 100%;
+    padding-top: 125px;
+    padding-right: 50px;
+    padding-bottom: 20px;
+    padding-left: 100px;
+    white-space: nowrap;
+    text-align: left;
+    box-sizing: border-box;
+    overflow: hidden;
+    overflow-x: auto;
+}
+
+.box {
+    display: table;
+    top: 0;
+    visibility: hidden;
+    -webkit-transform: perspective(1200px) rotateY(180deg) scale(0.1);
+    -ms-transform: perspective(1200px) rotateY(180deg) scale(0.1);
+    transform: perspective(1200px) rotateY(180deg) scale(0.1);
+    top: 0;
+    left: 0;
+    z-index: -1;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: 1s all;
+    p {
+        display: table-cell;
+        vertical-align: middle;
+        font-size: 64px;
+        color: #ffffff;
+        text-align: center;
+        margin: 0;
+        opacity: 0;
+        transition: .2s;
+        -webkit-transition-delay: 0.2s;
+        -ms-transition-delay: 0.2s;
+        transition-delay: 0.2s;
+        i {
+            font-size: 128px;
+            margin: 0 0 20px;
+            display: block;
+        }
+    }
+    .close {
+        display: block;
+        cursor: pointer;
+        border: 3px solid rgba(255, 255, 255, 1);
+        border-radius: 50%;
+        position: absolute;
+        top: 50px;
+        right: 50px;
+        width: 50px;
+        height: 50px;
+        -webkit-transform: rotate(45deg);
+        // -ms-transform: rotate(45deg) transform: rotate(45deg);
+        transition: .2s;
+        -webkit-transition-delay: 0.2s;
+        -ms-transition-delay: 0.2s;
+        transition-delay: 0.2s;
+        opacity: 0;
+        &:active {
+            top: 51px;
+        }
+        &::before {
+            content: "";
+            display: block;
+            position: absolute;
+            background-color: rgba(255, 255, 255, 1);
+            width: 80%;
+            height: 6%;
+            left: 10%;
+            top: 47%;
+        }
+        &::after {
+            content: "";
+            display: block;
+            position: absolute;
+            background-color: rgba(255, 255, 255, 1);
+            width: 6%;
+            height: 80%;
+            left: 47%;
+            top: 10%;
+        }
+    }
+    &.open {
+        left: 0;
+        top: 0;
+        visibility: visible;
+        opacity: 1;
+        z-index: 999;
+        -webkit-transform: perspective(1200px) rotateY(0deg) scale(1);
+        -ms-transform: perspective(1200px) rotateY(0deg) scale(1);
+        transform: perspective(1200px) rotateY(0deg) scale(1);
+        width: 100%;
+        height: 100%;
+        .close {
+            opacity: 1;
+        }
+        p {
+            opacity: 1;
+        }
+    }
+}
+
+.box-img-container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: 300px;
+    width: 300px;
+    img {
+        height: 100%;
+    }
+    h1 {
+        padding: 0;
+        margin: 0;
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 200px;
+        text-align: center;
+        &.white {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        &.black {
+            color: rgba(0, 0, 0, 0.5);
+        }
+    }
+}
+
+img {
+    &.hide {
+        opacity: 0;
+    }
+}
+
+.title {
+    height: 120px;
+    margin: 0;
+    width: 100%;
+    position: absolute;
+    // background-color: #FFF;
+    h1 {
+        margin-top: 60px;
+        margin-left: 100px;
+        font-size: 40px;
+        color: #FFF;
+    }
+}
+
+#favoriteMetroBlock {
+    margin-left: 5px;
+}
+
+.chart-bar {
+    background-color: #f9f9f9;
+    width: 100%;
+    // height: 305px;
+    // margin-top: 60px;
+    border-radius: 0 2px 2px 2px;
+}
+
+.preprocessing-controller {
+    margin-left: 5px;
+    vertical-align: top;
+    font-family: 'Open Sans', "PingFang TC", "Microsoft Yahei", "Hiragino Sans GB", 'cwTeXYen', sans-serif;
+}
+
+.controller-panel {
+    border-radius: 5px;
+    height: 300px;
+    width: 100%;
+    background-color: #4d4d4d;
+    box-shadow: 2px 3px 5px rgba(0, 0, 0, .5);
+}
+
+.add-chart-box {
+    .name {
+        color: #c0c0c0;
+        display: inline-block;
+        padding: 5px;
+    }
+    button {
+        padding: 5px;
+    }
+}
+
+.preproceing-box {
+    border: #000 solid 1px;
+    .input-box {
+        color: #c0c0c0;
+        display: inline-block;
+        margin-right: 10px;
+        padding: 5px;
+        input {
+            width: 40px;
+        }
+    }
+    margin:10px 10px;
+}
+
+.width-button {
+    // width: 90%;
+    margin: 10px 0;
+    padding: 0 20px;
+    button {
+        width: 100%;
+    }
+}
+
+.tool-tabs {
+    width: 100%;
+    margin-top: 10px;
+    .tab {
+        display: inline-block;
+        border-radius: 5px 5px 0 0;
+        color: #888;
+        background-color: #f0f0f0;
+        padding: 2px 10px;
+        cursor: pointer;
+        &:hover {
+            color: #666;
+        }
+        &.active {
+            background-color: #f9f9f9;
+        }
+    }
+}
+
+.tab-content {
+    background-color: #f9f9f9;
+    height: 370px;
+    position: relative;
+    .content-result {
+        position: absolute;
+        right: 50%;
+        top: 50%;
+        transform: translate(50%, -50%);
+        padding: 20px;
+        background-color: #e6e6e6;
+        border-radius: 5px;
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, .2);
+    }
+}
+
+.left-tool {
+    width: 200px;
+    border: #000 solid 1px;
+    height: 100%;
+    .chart-label {
+        padding: 2px;
+        margin: 10px;
+        background-color: #f0f0f0;
+        border-radius: 2px;
+        box-shadow: 2px 2px 2px rgba(0, 0, 0, .2);
+        text-align: center;
+        cursor: pointer;
+        &.active {
+            background-color: #f9f9f9;
+            border: #e79089 solid 3px;
+        }
+    }
+}
+
+// .round-button{
+//      border-radius: 5px;
+//     border-width: 2px;
+//     border-style: solid;
+//     border-color: #337ab7;
+//     padding: .5em 2em;
+//     cursor: pointer;
+//     margin: .5em;}

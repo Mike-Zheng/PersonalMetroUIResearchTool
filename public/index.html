@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html ng-app="PersonalMetroApp" ng-csp>
+<!-- Copyright MizTech -->
+<!-- Licensed MikeZheng -->
+<!-- http: //mike-zheng.github.io/ -->
+<!--  
+   _   _____ _ 
+  (_) |_   _|   | |
+ _ __ ___  _ ___| | ___  ___| |__  
+| '_ ` _ \| |_  / |/ _ \/ __| '_ \ 
+| | | | | | |/ /| |  __/ (__| | | |
+|_| |_| |_|_/___\_/\___|\___|_| |_|
+
+   mike-zheng.github.io
+
+-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" type="image/png" href="images/icon.png" />
+    <title>Personal Metro UI</title>
+    <script src="js/angular.min.js"></script>
+    <script src="js/miz.js"></script>
+    <link rel="stylesheet" href="css/mizUI.css">
+</head>
+
+<body ng-controller="MetroController" ng-init="init()">
+    <div class="title">
+        <h1>開始</h1></div>
+    <div class="container">
+        <div id="historyMetroBlock" class="metro-container">
+            <div ng-repeat="m in historyMetros | orderBy:'index'" data="{{m}}" data-hint="" class="{{m.cssStyle}} hint--bottom metro temp-color" ng-style="{'background-color':'rgb('+m.color['r']+','+m.color['g']+','+m.color['b']+')'}">
+                <!-- <a href="http://{{ m.domain}}"></a> -->
+                <div class="metro-inner" ng-click="goto(m)">
+                    <div class="metro-content" title="{{m.domain}}">
+                        <h2 ng-class="{white:m.color['r']+m.color['g']+m.color['b']<=595,black:m.color['r']+m.color['g']+m.color['b']>595}">{{m.name}}</h2></div>
+                    <!-- <img ng-if="color($index)" id="img{{$index}}" title="{{m.domain}}'" class="favicon" ng-src="{{m.favicon}}" color-thief color-thief-dominant="m.dominantColor"></img> -->
+                    <img ng-if="m.src" class=" domain-ico size-{{m.huffmanCoding.length}} icon-size" src="{{m.src}}" alt="{{m.name}}">
+                    <div ng-if="!m.src" class="domain-ico">
+                        <h1 class=" length-{{m.huffmanCoding.length}} text-size" ng-class="{white:m.color['r']+m.color['g']+m.color['b']<=595,black:m.color['r']+m.color['g']+m.color['b']>595}">{{m.name.split("")[0].toUpperCase()}}</h1></div>
+                    <img ng-if="color(historyMetros,$index)" id="img{{$index}}" title="{{m.domain}}'" class="favicon hide" ng-src="{{m.favicon}}"></img>
+                    <!-- ng-class="{'hide':m.src}" -->
+                    <canvas id="cv{{$index}}" style="opacity: 0;visibility: hidden;"></canvas>
+                    <div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="preprocessing-controller metro-container">
+            <div class="controller-panel">
+                <div class="add-chart-box">
+                    <div class="name">
+                        輸入圖表名
+                        <input type="text" ng-model="newChartName">
+                    </div>
+                    <button ng-click="addToChart()">將結果加入圖表</button>
+                </div>
+                <div class="preproceing-box">
+                    前處理調整
+                    <br>
+                    <div class="input-box">
+                        當天比重
+                        <input type="text" ng-model="rank.d0">
+                    </div>
+                    <div class="input-box">
+                        前1天比重
+                        <input type="text" ng-model="rank.d1">
+                    </div>
+                    <div class="input-box">
+                        前2天比重
+                        <input type="text" ng-model="rank.d2">
+                    </div>
+                    <div class="input-box">
+                        前3天比重
+                        <input type="text" ng-model="rank.d3">
+                    </div>
+                </div>
+                <div class="preproceing-box">
+                    資料調整
+                    <br>
+                    <div class="input-box">
+                        <button ng-click="adjust(1);newChartName='取一星期'">取一星期</button>
+                    </div>
+                    <div class="input-box">
+                        <button ng-click="adjust(2);newChartName='一星期前'">一星期前</button>
+                    </div>
+                    <div class="input-box">
+                        <button ng-click="adjust(3);newChartName='一星期前～前兩星期止'">一星期前～前兩星期止</button>
+                    </div>
+                    <div class="input-box">
+                        <button ng-click="adjust(0);newChartName='全部資料'">全部資料</button>
+                    </div>
+                    <div class="input-box">
+                        <button ng-click="adjust(4);newChartName='只取假日'">只取假日</button>
+                    </div>
+                    <div class="input-box">
+                        <button ng-click="adjust(5);newChartName='只取平日'">只取平日</button>
+                    </div>
+                    <br>
+                    <div class="input-box">
+                        <button ng-click="adjust(11);newChartName='取星期一'">取星期一</button>
+                    </div>
+                    <div class="input-box">
+                        <button ng-click="adjust(12);newChartName='取星期二'">取星期二</button>
+                    </div>
+                    <div class="input-box">
+                        <button ng-click="adjust(13);newChartName='取星期三'">取星期三</button>
+                    </div>
+                    <div class="input-box">
+                        <button ng-click="adjust(14);newChartName='取星期四'">取星期四</button>
+                    </div>
+                    <div class="input-box">
+                        <button ng-click="adjust(15);newChartName='取星期五'">取星期五</button>
+                    </div>
+                    <div class="input-box">
+                        <button ng-click="adjust(16);newChartName='取星期六'">取星期六</button>
+                    </div>
+                    <div class="input-box">
+                        <button ng-click="adjust(17);newChartName='取星期日'">取星期日</button>
+                    </div>
+                </div>
+                <div class="width-button">
+                    <button ng-click="refreshMetro()">Go</button>
+                </div>
+            </div>
+            <div class="tool-tabs">
+                <div class="tab" ng-class="{'active': tab=='chart'}" ng-click="switchTab('chart')">圖表</div>
+               <div class="tab" ng-class="{'active': tab=='rmse'}" ng-click="switchTab('rmse')">RMSE</div>
+            </div>
+            <div ng-if="tab=='chart'" class="tab-content">
+                <canvas id="bar" class="chart chart-bar" chart-data="chartData" chart-labels="chartLabels" chart-series="chartSeries">
+                </canvas>
+            </div>
+            <div ng-if="tab=='rmse'" class="tab-content">
+                <div class="left-tool">
+                      <div ng-repeat="r in chartSeries track by $index" ng-class="{'active': select1==$index||select2==$index}"  class="chart-label" ng-click="select($index)">{{r}}</div>
+                      
+                </div>
+                <div class="content-result">rmse: {{rmse}}</div>
+              
+            </div>
+        </div>
+    </div>
+    <div class="box" ng-class="{'open': isBoxOpen}" ng-style="{'background-color':boxColor}">
+        <span class="close" ng-click=" isBoxOpen = false;"></span>
+        <p></p>
+        <div class="box-img-container">
+            <img ng-if="box.src" src="{{box.src}}" alt="">
+            <h1 ng-class="{white:box.color['r']+box.color['g']+box.color['b']<=595,black:box.color['r']+box.color['g']+box.color['b']>595}" ng-if="!box.src">{{box.name.split("")[0].toUpperCase()}}</h1>
+        </div>
+    </div>
+    </div>
+</body>
+
+</html>
